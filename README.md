@@ -2,7 +2,7 @@ Instructions to run the application :
 
 Clone the repo using               
 
-           git clone 'repo url'
+           git clone https://github.com/PonmanojP/linkspot.git
 
 Open In your preferred Code editor
 
