@@ -1,0 +1,46 @@
+<!-- templates/navigation_form.html -->
+<form action="{% url 'navigate' %}" method="post">
+    {% csrf_token %}
+    <style>
+        /* CSS styles for the form */
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        </style>
+    <label for="source_lat">Source Latitude:</label>
+    <input type="text" id="source_lat" name="source_lat"><br>
+    <label for="source_lng">Source Longitude:</label>
+    <input type="text" id="source_lng" name="source_lng"><br>
+    <label for="dest_lat">Destination Latitude:</label>
+    <input type="text" id="dest_lat" name="dest_lat"><br>
+    <label for="dest_lng">Destination Longitude:</label>
+    <input type="text" id="dest_lng" name="dest_lng"><br>
+    <button type="submit">Start Navigation</button>
+</form>
