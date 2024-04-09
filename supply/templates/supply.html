@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    
+}
+
+header, main, footer {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1,h2{
+    font-family: 'Montserrat', sans-serif;
+}
+
+        body{
+            font-family: 'open sans',sans-serif;
+            background-image: url('{% static "supply/bg.jpg"%}');
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            margin-bottom:80px;
+            overflow-x: hidden;
+            height: 100svh;
+            background-size: fill;
+            background-position: center;
+            position: relative;
+
+        }
+
+        body::before {
+            content: '';
+            position: fixed; /* Change to fixed for full body coverage */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+            z-index: -1; /* Place the pseudo-element below the content */
+        }
+        .navbar{
+            display: flex;
+            align-items: center;
+            background-color: rgb(255, 255, 255);
+            padding:5px;
+            position:fixed;
+            top:0;
+            width: 100%;
+            box-shadow: 1px 1px 10px 1px;
+            z-index:5;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+        }
+
+        .nav-inner{
+            display: flex;
+            width:100%;
+            justify-content: space-between;
+            padding-left: 30px;
+            padding-right: 30px;
+            align-items: center;
+        }
+
+        .menu{
+            width: 30%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 22px;
+        }
+
+        .menu-item:hover{
+            cursor: pointer;
+            border-bottom: 5px solid #272B3A;
+            transition: 0.1s ease-in-out;
+        }
+
+
+        #home{
+            border-bottom: 5px solid #272B3A;
+        }
+
+        .logo img{
+            height: 60px;
+            width: 200px;
+        }
+
+        .map-container{
+            margin-top:200px;
+            height: 100svh;
+            width: 100svw;
+            display: grid;
+            place-content: center;
+            margin-bottom:80px;
+        }
+
+        .map-primary{
+            height: 600px;
+            width:900px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0px 2px 20px 2px rgb(109, 109, 108);
+        }
+
+        .map-primary iframe{
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        h2{
+            text-align: center;
+        }
+
+        .analytics-container{
+            height: 100svh;
+            width: 100%;
+            display: grid;
+            place-content: center;
+            gap:60px;
+        }
+        
+        .analytics{
+            width: 100%;
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .critical, .Restaurants{
+            height:400px;
+            width: 600px;
+            border-radius:20px;
+            background-color: white;
+            box-shadow: 0px 2px 20px 2px rgb(109, 109, 108);
+        }
+
+        .ai{
+            height: 50px;
+            width:100px;
+            background-color: #272B3A;
+            border-radius: 20px;
+            display: grid;
+            place-content: center;
+            font-weight: bold;
+            color:white;
+            transition:0.1s ease-in-out;
+        }
+
+        .ai:hover{
+            background-color: gray;
+            transition:0.1s ease-in-out;
+            cursor:pointer;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom:80px;
+            
+        }
+    .search-input {
+        flex-grow: 0.5;
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        border-radius:20px;
+        box-shadow: 0px 2px 20px 2px rgb(109, 109, 108);
+    }
+    .search-button {
+        padding: 12px 12px;
+        background-color: #272B3A;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transform:translateX(-75px);
+        border-radius:20px;
+    }
+    .search-button:hover {
+        background-color: gray;
+    }
+
+    footer{
+        color:white;
+        background-color: #272B3A;
+        padding-right:100px;
+        padding-left:100px;
+        display: flex;
+        min-height: calc(20vh - 40px);
+        justify-content: space-between;
+        
+    }
+    
+
+    footer p{
+        margin-bottom:10px;
+    }
+
+    .result{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap:100px;
+        margin-bottom: 80px;
+    }
+
+    .result-item{
+        height: 200px;
+        width: 500px;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 5px 10px 20px 0px rgb(109, 109, 108);
+    }
+
+    .result-item{
+        display: flex;
+        gap:50px;
+        position: relative;
+    }
+
+    .result-item img{
+        height: 100px;
+        width: 150px;
+    }
+
+    .result-item div{
+        margin-top:50px;
+    }
+
+    .result-item div>p{
+        margin-bottom:10px;
+    }
+
+    .req{
+        position: absolute;
+        bottom:20px;
+        right:20px;
+        padding:10px;
+        border-radius: 10px;
+        border:none;
+        background-color: #272B3A;
+        color:#fff;
+        transition: 0.25s ease-in-out;
+    }
+
+    h1{
+        text-align: center;
+    }
+
+    .req:hover{
+        background-color: gray;
+        cursor: pointer;
+        transition: 0.25s ease-in-out;
+    }
+
+    
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-inner">
+            <div class="logo"><img src="{% static 'supply/logo.png' %}" alt="image"></div>
+            <div class="menu">
+                <span class="menu-item" id="home">Home</span>
+                <span class="menu-item" id="about"> About</span>
+                <span class="menu-item" id="contact"> Contact</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="map-container">
+        <center><h1> Major Hotspots and Suppliers in Coimbatore</h1></center>
+        <br>
+        <br>
+        <div class="map-primary">
+            
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31329.8532308483!2d77.01115089612428!3d11.021238487607949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8582f1435fa59%3A0x137d95bfd8909293!2sPSG%20College%20Of%20Technology!5e0!3m2!1sen!2sin!4v1712644219595!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+    <div class="analytics-container">
+        <h1> Analytics </h1>
+        <div class="analytics">
+
+            <div class="critical"></div>
+            <div class="ai"><p>Ask AI</p></div>
+            <div class="Restaurants"></div>
+
+        </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Enter search term...">
+        <button type="submit" class="search-button">Search</button>
+
+    </div>
+
+    <div class="result">
+        <div class="result-item">
+            <div>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
+
+            </div>
+            
+            <div>
+                <p>Hotel Name</p>
+                <p>Hotel Location</p>
+                <p>★★★★★</p>
+                <button class="req">Send Request</button>
+            </div>
+        </div>
+        <div class="result-item">
+            <div>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
+
+            </div>
+            
+            <div>
+                <p>Hotel Name</p>
+                <p>Hotel Location</p>
+                <p>★★★★★</p>
+                <button class="req">Send Request</button>
+            </div>
+        </div><div class="result-item">
+            <div>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
+
+            </div>
+            
+            <div>
+                <p>Hotel Name</p>
+                <p>Hotel Location</p>
+                <p>★★★★★</p>
+                <button class="req">Send Request</button>
+            </div>
+        </div><div class="result-item">
+            <div>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
+
+            </div>
+            
+            <div>
+                <p>Hotel Name</p>
+                <p>Hotel Location</p>
+                <p>★★★★★</p>
+                <button class="req">Send Request</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <section>
+            <h2>LINK SPOT</h2>
+            <br>
+            <p>Volunteer</p>
+            <p>About US</p>
+            <p>Terms and Conditions</p>
+            <p>Privacy Policy</p>
+        </section>
+    
+        <section>
+            <p>Contact US</p>
+            <p>Instagram</p>
+            <p>Main</p>
+            <p>Phone number</p>
+        </section>
+    </footer>
+
+    
+
+    
+</body>
+
+
+</html>
