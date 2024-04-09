@@ -3,7 +3,7 @@ from django.shortcuts import render
 import googlemaps
 from django.conf import settings
 
-def navigate(request):
+def supply(request):
     if request.method == 'POST':
         api_key = settings.GOOGLE_MAPS_API_KEY
 
@@ -25,9 +25,6 @@ def navigate(request):
             # Construct the navigation URL from the directions response
             navigation_url = f'https://www.google.com/maps/embed/v1/directions?key={api_key}&origin={source_lat},{source_lng}&destination={dest_lat},{dest_lng}'
 
-            return render(request, 'navigation.html', {'navigation_url': navigation_url})
-        else:
-            return render(request, 'error.html', {'message': 'Error fetching directions'})
-
-    return render(request, 'navigation_form.html')
+            return render(request, 'supply.html', {'navigation_url': navigation_url})
+    return render(request, 'supply.html')
 
