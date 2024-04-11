@@ -62,7 +62,6 @@ h1,h2{
             box-shadow: 1px 1px 10px 1px;
             z-index:5;
             font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
         }
 
         .nav-inner{
@@ -83,17 +82,17 @@ h1,h2{
 
         .menu-item:hover{
             cursor: pointer;
-            border-bottom: 5px solid #272B3A;
+            border-bottom: 3px solid #272B3A;
             transition: 0.1s ease-in-out;
         }
 
 
         #home{
-            border-bottom: 5px solid #272B3A;
+            border-bottom: 3px solid #272B3A;
         }
 
         .logo img{
-            height: 60px;
+            height: 50px;
             width: 200px;
         }
 
@@ -271,6 +270,133 @@ h1,h2{
         transition: 0.25s ease-in-out;
     }
 
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      position: relative;
+      border-radius: 40px;
+      background-color: #74d1e5;
+      color:rgb(0, 0, 0);
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      height: 600px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .bot-input{
+        display: flex;
+        gap:10px;
+        position: sticky;
+        top:90%;
+        left: 50%;
+        transform:translate(2.5%,50%);
+        margin-bottom:10px;
+    }
+
+    .bot-input input{
+        height: 30px;
+        width: 500px;
+        border-radius: 10px;
+        outline: none;
+        border:none;
+        padding-left:10px;
+    }
+
+    .bot-input button{
+        background-color:#272B3A;
+        height: 30px;
+        width: 60px;
+        border-radius: 10px;
+        color:white;
+    }
+
+    .bot-input button:hover{
+        cursor: pointer;
+        background-color: #3c4258;
+    }
+
+    /* Style for the close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .chatbot-message {
+        background-color: lightblue;
+        padding: 10px;
+        margin: 10px 0;
+        transition:0.5s ease-in-out;
+        animation:0.5s linear chat;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: start;
+        align-items: center;
+        gap:10px;
+    }
+
+    /* width */
+::-webkit-scrollbar {
+    width: 5px;
+    }
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #74d1e5;
+    }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    }
+
+    .user-message {
+        background-color: rgb(188, 229, 178);
+        padding: 10px;
+        margin: 10px 0;
+        transition:0.5s ease-in-out;
+        animation:0.5s linear chat;
+    }
+
+    @keyframes chat{
+        0%{
+            margin-top:50px;
+            transition:0.5s ease-in-out;
+        }
+
+        50%{
+            margin-top:20px;
+            transition:0.5s ease-in-out;
+        }
+
+        100%{
+            margin-top:10px;
+            transition:0.5s ease-in-out;
+        }
+    }
+
     
     </style>
 </head>
@@ -302,14 +428,36 @@ h1,h2{
         <div class="analytics">
 
             <div class="critical"></div>
-            <div class="ai"><p>Ask AI</p></div>
+
+            <div class="ai" onclick="openModal()"><p>Ask AI</p></div>
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                  <span class="close" onclick="closeModal()">&times;</span>
+                  <h2>LinkGPT</h2>
+                  <br>
+                  <div id="chatbot">
+                    <div id="initialMessage" style="display: none;">{{ initial_message }}</div>
+                  </div>
+                  <div class="bot-input">
+                    <form id="chatForm">
+                        {% csrf_token %}
+                        <input name="message" type="text" id="userInput" placeholder="Enter your message...">
+                        <button type="submit" onclick="sendMessage()">Send</button>
+                      </form>
+                    
+                  </div>
+                  
+                </div>
+              </div>
+
             <div class="Restaurants"></div>
 
         </div>
     </div>
 
     <div class="search-container">
-        <input type="text" class="search-input" placeholder="Enter search term...">
+        <input type="text" class="search-input" placeholder="Search Hotspot...">
         <button type="submit" class="search-button">Search</button>
 
     </div>
@@ -357,7 +505,7 @@ h1,h2{
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
 
             </div>
-            
+
             <div>
                 <p>Hotel Name</p>
                 <p>Hotel Location</p>
@@ -385,6 +533,70 @@ h1,h2{
         </section>
     </footer>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var modal = document.getElementById("myModal");
+
+        // Function to open the modal
+        function openModal() {
+            modal.style.display = "grid";
+            var initialMessage = document.getElementById("initialMessage").textContent.trim();
+            displayChatbotMessage(initialMessage);
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        function displayChatbotMessage(message) {
+            var chatbotDiv = document.getElementById("chatbot");
+            // Create div for logo
+            var logoDiv = document.createElement("div");
+            logoDiv.className = "logo";
+            var logoImg = document.createElement("img");
+            logoImg.style.height = '35px';
+            logoImg.style.width = '35px';
+            logoImg.src = "{% static 'supply/chat.png' %}"; // Replace with the actual path to your logo image
+            logoDiv.appendChild(logoImg);
+            
+            // Create div for chatbot message
+            var messageElement = document.createElement("div");
+            
+            messageElement.className = "chatbot-message";
+            messageElement.textContent = message;
+            messageElement.appendChild(logoDiv);
+            // Append logo and message to chatbot div
+            
+            chatbotDiv.appendChild(messageElement);
+        }
+
+        function sendMessage() {
+            var userInput = document.getElementById("userInput").value;
+            var chatbotDiv = document.getElementById("chatbot");
+            var messageElement2 = document.createElement("div");
+            messageElement2.className = "user-message";
+            messageElement2.textContent =  userInput;
+            chatbotDiv.appendChild(messageElement2);
+        }
+
+        // Function to handle form submission using AJAX
+        $("#chatForm").submit(function(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+        var formData = $(this).serialize();
+            $.ajax({
+                type: "POST",
+                url: "{% url 'supply' %}",
+                data: formData,
+                success: function(response) {
+                displayChatbotMessage(response.message);
+                },
+                error: function(xhr, status, error) {
+                console.error("Error sending user message:", error);
+                }
+            });
+        });
+      </script>
     
 
     
