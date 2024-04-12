@@ -1,0 +1,394 @@
+        * {
+            margin: 0;
+            padding: 0;
+            
+        }
+
+        header, main, footer {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1,h2{
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body{
+            font-family: 'open sans',sans-serif;
+            
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            margin-bottom:80px;
+            overflow-x: hidden;
+            height: 100svh;
+            background-size: fill;
+            background-position: center;
+            position: relative;
+
+        }
+
+        body::before {
+            content: '';
+            position: fixed; /* Change to fixed for full body coverage */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+            z-index: -1; /* Place the pseudo-element below the content */
+        }
+        .navbar{
+            display: flex;
+            align-items: center;
+            background-color: rgb(255, 255, 255);
+            padding:5px;
+            position:fixed;
+            top:0;
+            width: 100%;
+            box-shadow: 1px 1px 10px 1px;
+            z-index:5;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .nav-inner{
+            display: flex;
+            width:100%;
+            justify-content: space-between;
+            padding-left: 30px;
+            padding-right: 30px;
+            align-items: center;
+        }
+
+        .menu{
+            width: 30%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 22px;
+        }
+
+        .menu-item:hover{
+            cursor: pointer;
+            border-bottom: 3px solid #272B3A;
+            transition: 0.1s ease-in-out;
+        }
+
+
+        #home{
+            border-bottom: 3px solid #272B3A;
+        }
+
+        .logo img{
+            height: 50px;
+            width: 200px;
+        }
+
+        .map-container{
+            margin-top:200px;
+            height: 100svh;
+            width: 100svw;
+            display: grid;
+            place-content: center;
+            margin-bottom:80px;
+        }
+
+        .map-primary{
+            height: 600px;
+            width:900px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0px 2px 20px 2px rgb(109, 109, 108);
+        }
+
+        .map-primary iframe{
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        h2{
+            text-align: center;
+        }
+
+        .analytics-container{
+            height: 100svh;
+            width: 100%;
+            display: grid;
+            place-content: center;
+            gap:60px;
+        }
+        
+        .analytics{
+            width: 100%;
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .critical, .Restaurants{
+            height:400px;
+            width: 600px;
+            border-radius:20px;
+            background-color: white;
+            box-shadow: 0px 2px 20px 2px rgb(109, 109, 108);
+            display: grid;
+            place-content: center;
+        }
+
+        .ai{
+            height: 50px;
+            width:100px;
+            background-color: #272B3A;
+            border-radius: 20px;
+            display: grid;
+            place-content: center;
+            font-weight: bold;
+            color:white;
+            transition:0.1s ease-in-out;
+        }
+
+        .ai:hover{
+            background-color: gray;
+            transition:0.1s ease-in-out;
+            cursor:pointer;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom:80px;
+            
+        }
+    .search-input {
+        flex-grow: 0.5;
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        border-radius:20px;
+        box-shadow: 0px 2px 20px 2px rgb(109, 109, 108);
+    }
+    .search-button {
+        padding: 12px 12px;
+        background-color: #272B3A;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transform:translateX(-75px);
+        border-radius:20px;
+    }
+    .search-button:hover {
+        background-color: gray;
+    }
+
+    footer{
+        color:white;
+        background-color: #272B3A;
+        padding-right:100px;
+        padding-left:100px;
+        display: flex;
+        min-height: calc(20vh - 40px);
+        justify-content: space-between;
+        
+    }
+    
+
+    footer p{
+        margin-bottom:10px;
+    }
+
+    .result{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap:100px;
+        margin-bottom: 80px;
+    }
+
+    .result-item{
+        height: 200px;
+        width: 500px;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 5px 10px 20px 0px rgb(109, 109, 108);
+    }
+
+    .result-item{
+        display: flex;
+        gap:50px;
+        position: relative;
+    }
+
+    .result-item img{
+        height: 100px;
+        width: 150px;
+    }
+
+    .result-item div{
+        margin-top:50px;
+    }
+
+    .result-item div>p{
+        margin-bottom:10px;
+    }
+
+    .req{
+        position: absolute;
+        bottom:20px;
+        right:20px;
+        padding:10px;
+        border-radius: 10px;
+        border:none;
+        background-color: #272B3A;
+        color:#fff;
+        transition: 0.25s ease-in-out;
+    }
+
+    h1{
+        text-align: center;
+    }
+
+    .req:hover{
+        background-color: gray;
+        cursor: pointer;
+        transition: 0.25s ease-in-out;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      position: relative;
+      border-radius: 40px;
+      background-color: #74d1e5;
+      color:rgb(0, 0, 0);
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      height: 600px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .bot-input{
+        display: flex;
+        gap:10px;
+        position: sticky;
+        top:90%;
+        left: 50%;
+        transform:translate(2.5%,50%);
+        margin-bottom:10px;
+    }
+
+    .bot-input input{
+        height: 30px;
+        width: 500px;
+        border-radius: 10px;
+        outline: none;
+        border:none;
+        padding-left:10px;
+    }
+
+    .bot-input button{
+        background-color:#272B3A;
+        height: 30px;
+        width: 60px;
+        border-radius: 10px;
+        color:white;
+    }
+
+    .bot-input button:hover{
+        cursor: pointer;
+        background-color: #3c4258;
+    }
+
+    /* Style for the close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .chatbot-message {
+        background-color: lightblue;
+        padding: 10px;
+        margin: 10px 0;
+        transition:0.5s ease-in-out;
+        animation:0.5s linear chat;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: start;
+        align-items: center;
+        gap:10px;
+    }
+
+    #myChart{
+        height: 100%;
+        width:100%;
+        
+    }
+
+    /* width */
+::-webkit-scrollbar {
+    width: 5px;
+    }
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #74d1e5;
+    }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    }
+
+    .user-message {
+        background-color: rgb(188, 229, 178);
+        padding: 10px;
+        margin: 10px 0;
+        transition:0.5s ease-in-out;
+        animation:0.5s linear chat;
+    }
+
+    @keyframes chat{
+        0%{
+            margin-top:50px;
+            transition:0.5s ease-in-out;
+        }
+
+        50%{
+            margin-top:20px;
+            transition:0.5s ease-in-out;
+        }
+
+        100%{
+            margin-top:10px;
+            transition:0.5s ease-in-out;
+        }
+    }

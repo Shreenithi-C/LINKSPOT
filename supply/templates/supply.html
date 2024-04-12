@@ -6,398 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'supply/styles.css' %}">
     <style>
-
-* {
-    margin: 0;
-    padding: 0;
-    
-}
-
-header, main, footer {
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-h1,h2{
-    font-family: 'Montserrat', sans-serif;
-}
-
         body{
-            font-family: 'open sans',sans-serif;
             background-image: url('{% static "supply/bg.jpg"%}');
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            margin-bottom:80px;
-            overflow-x: hidden;
-            height: 100svh;
-            background-size: fill;
-            background-position: center;
-            position: relative;
-
         }
-
-        body::before {
-            content: '';
-            position: fixed; /* Change to fixed for full body coverage */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
-            z-index: -1; /* Place the pseudo-element below the content */
-        }
-        .navbar{
-            display: flex;
-            align-items: center;
-            background-color: rgb(255, 255, 255);
-            padding:5px;
-            position:fixed;
-            top:0;
-            width: 100%;
-            box-shadow: 1px 1px 10px 1px;
-            z-index:5;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .nav-inner{
-            display: flex;
-            width:100%;
-            justify-content: space-between;
-            padding-left: 30px;
-            padding-right: 30px;
-            align-items: center;
-        }
-
-        .menu{
-            width: 30%;
-            display: flex;
-            justify-content: space-between;
-            font-size: 22px;
-        }
-
-        .menu-item:hover{
-            cursor: pointer;
-            border-bottom: 3px solid #272B3A;
-            transition: 0.1s ease-in-out;
-        }
-
-
-        #home{
-            border-bottom: 3px solid #272B3A;
-        }
-
-        .logo img{
-            height: 50px;
-            width: 200px;
-        }
-
-        .map-container{
-            margin-top:200px;
-            height: 100svh;
-            width: 100svw;
-            display: grid;
-            place-content: center;
-            margin-bottom:80px;
-        }
-
-        .map-primary{
-            height: 600px;
-            width:900px;
-            background-color: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0px 2px 20px 2px rgb(109, 109, 108);
-        }
-
-        .map-primary iframe{
-            width: 100%;
-            height: 100%;
-            object-fit: fill;
-        }
-
-        h2{
-            text-align: center;
-        }
-
-        .analytics-container{
-            height: 100svh;
-            width: 100%;
-            display: grid;
-            place-content: center;
-            gap:60px;
-        }
-        
-        .analytics{
-            width: 100%;
-            display: flex;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .critical, .Restaurants{
-            height:400px;
-            width: 600px;
-            border-radius:20px;
-            background-color: white;
-            box-shadow: 0px 2px 20px 2px rgb(109, 109, 108);
-        }
-
-        .ai{
-            height: 50px;
-            width:100px;
-            background-color: #272B3A;
-            border-radius: 20px;
-            display: grid;
-            place-content: center;
-            font-weight: bold;
-            color:white;
-            transition:0.1s ease-in-out;
-        }
-
-        .ai:hover{
-            background-color: gray;
-            transition:0.1s ease-in-out;
-            cursor:pointer;
-        }
-
-        .search-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom:80px;
-            
-        }
-    .search-input {
-        flex-grow: 0.5;
-        padding: 15px;
-        font-size: 18px;
-        border: none;
-        outline: none;
-        border-radius:20px;
-        box-shadow: 0px 2px 20px 2px rgb(109, 109, 108);
-    }
-    .search-button {
-        padding: 12px 12px;
-        background-color: #272B3A;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        transform:translateX(-75px);
-        border-radius:20px;
-    }
-    .search-button:hover {
-        background-color: gray;
-    }
-
-    footer{
-        color:white;
-        background-color: #272B3A;
-        padding-right:100px;
-        padding-left:100px;
-        display: flex;
-        min-height: calc(20vh - 40px);
-        justify-content: space-between;
-        
-    }
-    
-
-    footer p{
-        margin-bottom:10px;
-    }
-
-    .result{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        gap:100px;
-        margin-bottom: 80px;
-    }
-
-    .result-item{
-        height: 200px;
-        width: 500px;
-        background-color: white;
-        border-radius: 20px;
-        box-shadow: 5px 10px 20px 0px rgb(109, 109, 108);
-    }
-
-    .result-item{
-        display: flex;
-        gap:50px;
-        position: relative;
-    }
-
-    .result-item img{
-        height: 100px;
-        width: 150px;
-    }
-
-    .result-item div{
-        margin-top:50px;
-    }
-
-    .result-item div>p{
-        margin-bottom:10px;
-    }
-
-    .req{
-        position: absolute;
-        bottom:20px;
-        right:20px;
-        padding:10px;
-        border-radius: 10px;
-        border:none;
-        background-color: #272B3A;
-        color:#fff;
-        transition: 0.25s ease-in-out;
-    }
-
-    h1{
-        text-align: center;
-    }
-
-    .req:hover{
-        background-color: gray;
-        cursor: pointer;
-        transition: 0.25s ease-in-out;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.4);
-    }
-
-    .modal-content {
-      position: relative;
-      border-radius: 40px;
-      background-color: #74d1e5;
-      color:rgb(0, 0, 0);
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 600px;
-      height: 600px;
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
-
-    .bot-input{
-        display: flex;
-        gap:10px;
-        position: sticky;
-        top:90%;
-        left: 50%;
-        transform:translate(2.5%,50%);
-        margin-bottom:10px;
-    }
-
-    .bot-input input{
-        height: 30px;
-        width: 500px;
-        border-radius: 10px;
-        outline: none;
-        border:none;
-        padding-left:10px;
-    }
-
-    .bot-input button{
-        background-color:#272B3A;
-        height: 30px;
-        width: 60px;
-        border-radius: 10px;
-        color:white;
-    }
-
-    .bot-input button:hover{
-        cursor: pointer;
-        background-color: #3c4258;
-    }
-
-    /* Style for the close button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .chatbot-message {
-        background-color: lightblue;
-        padding: 10px;
-        margin: 10px 0;
-        transition:0.5s ease-in-out;
-        animation:0.5s linear chat;
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: start;
-        align-items: center;
-        gap:10px;
-    }
-
-    /* width */
-::-webkit-scrollbar {
-    width: 5px;
-    }
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: #74d1e5;
-    }
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #888;
-    }
-
-    .user-message {
-        background-color: rgb(188, 229, 178);
-        padding: 10px;
-        margin: 10px 0;
-        transition:0.5s ease-in-out;
-        animation:0.5s linear chat;
-    }
-
-    @keyframes chat{
-        0%{
-            margin-top:50px;
-            transition:0.5s ease-in-out;
-        }
-
-        50%{
-            margin-top:20px;
-            transition:0.5s ease-in-out;
-        }
-
-        100%{
-            margin-top:10px;
-            transition:0.5s ease-in-out;
-        }
-    }
-
-    
     </style>
 </head>
 <body>
@@ -417,9 +33,9 @@ h1,h2{
         <center><h1> Major Hotspots and Suppliers in Coimbatore</h1></center>
         <br>
         <br>
-        <div class="map-primary">
+        <div class="map-primary" id="map">
             
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31329.8532308483!2d77.01115089612428!3d11.021238487607949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8582f1435fa59%3A0x137d95bfd8909293!2sPSG%20College%20Of%20Technology!5e0!3m2!1sen!2sin!4v1712644219595!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31329.8532308483!2d77.01115089612428!3d11.021238487607949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8582f1435fa59%3A0x137d95bfd8909293!2sPSG%20College%20Of%20Technology!5e0!3m2!1sen!2sin!4v1712644219595!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
         </div>
     </div>
 
@@ -427,7 +43,9 @@ h1,h2{
         <h1> Analytics </h1>
         <div class="analytics">
 
-            <div class="critical"></div>
+            <div class="critical">
+                <canvas id="myChart"></canvas>
+            </div>
 
             <div class="ai" onclick="openModal()"><p>Ask AI</p></div>
             <div id="myModal" class="modal">
@@ -533,7 +151,9 @@ h1,h2{
         </section>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{api}}&callback=initMap" async defer></script>
     <script>
         var modal = document.getElementById("myModal");
 
@@ -596,6 +216,91 @@ h1,h2{
                 }
             });
         });
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var Hotspot_Name = {{ Hotspot_Name|safe }};
+        Hotspot_Name.sort().reverse()
+        var Food_needed = {{ Food_needed|safe }};
+        Food_needed.sort().reverse()
+        console.log(Hotspot_Name)
+
+        var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Hotspot_Name,
+            datasets: [{
+                label: 'Food Needed',
+                data: Food_needed,  // Replace with your actual chart_data array
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+
+
+    function initMap() {
+    var coordinates = {{ coordinates|safe }};
+
+    var customStyles = [
+        {
+            featureType: 'poi',
+            stylers: [{ visibility: 'off' }] // Hide all points of interest
+        }
+    ];
+
+    // Create the map centered at the first coordinate
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: {lat: parseFloat(coordinates[0][0]), lng: parseFloat(coordinates[0][1])},
+        styles: customStyles
+    });
+
+    var customMarkerImage = {
+        url: '{% static "supply/hotspot.png" %}', // Change this path to the location of your custom marker image
+        scaledSize: new google.maps.Size(32, 32), // Adjust the size of the marker image
+    };
+
+
+    
+    // Loop through coordinates to add markers
+    for (var i = 0; i < coordinates.length; i++) {
+        var lat = parseFloat(coordinates[i][0]);
+        var lng = parseFloat(coordinates[i][1]);
+        if (!isNaN(lat) && !isNaN(lng)) { // Check if conversion was successful
+            var marker = new google.maps.Marker({
+                position: {lat: lat, lng: lng},
+                map: map,
+                icon:customMarkerImage
+
+
+            });
+        } else {
+            console.error('Invalid latitude or longitude:', coordinates[i]);
+        }
+    }
+}
       </script>
     
 

@@ -10,6 +10,8 @@ from django.core.files.storage import FileSystemStorage
 import os
 import PIL.Image
 from django.http import JsonResponse
+from .models import Hotspot
+import json
 
 
 
@@ -21,6 +23,17 @@ def to_markdown(text):
 
 def supply(request):
 
+
+    api_key = settings.GOOGLE_MAPS_API_KEY
+
+    hotspots = Hotspot.objects.all()
+    Hotspot_name = list(Hotspot.objects.values_list('Hotspot_Name', flat=True))[:5]
+    Food_needed = list(Hotspot.objects.values_list('Food_needed', flat=True))[:5]
+    latitudes = list(Hotspot.objects.values_list('Hotspot_Latitude', flat=True))
+    longitudes = list(Hotspot.objects.values_list('Hotspot_longitude', flat=True))
+    coordinates = list(zip(latitudes, longitudes))
+
+    print(Hotspot_name)
     global x
     GOOGLE_API_KEY='AIzaSyDtiq-CBPFG500PMG_UJtO08wf4EQnz9H4'
     genai.configure(api_key=GOOGLE_API_KEY)
@@ -28,7 +41,7 @@ def supply(request):
 
     if request.method == 'GET':
         initial_message = 'Hello! How can I assist you?'
-        return render(request, 'supply.html', {'initial_message': initial_message})
+        return render(request, 'supply.html', {'initial_message': initial_message,'hotspot':hotspots,'Hotspot_Name':Hotspot_name,'Food_needed':Food_needed, 'coordinates':json.dumps(coordinates),'api':api_key})
     
     elif request.method == 'POST':
         prompt = request.POST.get('message', '')
