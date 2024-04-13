@@ -44,7 +44,7 @@
         <div class="analytics">
 
             <div class="critical">
-                <canvas id="myChart"></canvas>
+                <canvas id="myChart1"></canvas>
             </div>
 
             <div class="ai" onclick="openModal()"><p>Ask AI</p></div>
@@ -69,69 +69,45 @@
                 </div>
               </div>
 
-            <div class="Restaurants"></div>
+            <div class="Restaurants">
+                <canvas id="myChart2"></canvas>
+            </div>
 
         </div>
     </div>
 
     <div class="search-container">
-        <input type="text" class="search-input" placeholder="Search Hotspot...">
+        <form>
+        <input type="text" class="search-input" id="searchInput" name="source" placeholder="Search Hotspot...">
         <button type="submit" class="search-button">Search</button>
-
+    </form>
     </div>
 
-    <div class="result">
-        <div class="result-item">
-            <div>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
-
-            </div>
-            
-            <div>
-                <p>Hotel Name</p>
-                <p>Hotel Location</p>
-                <p>★★★★★</p>
-                <button class="req">Send Request</button>
-            </div>
-        </div>
-        <div class="result-item">
-            <div>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
-
-            </div>
-            
-            <div>
-                <p>Hotel Name</p>
-                <p>Hotel Location</p>
-                <p>★★★★★</p>
-                <button class="req">Send Request</button>
-            </div>
-        </div><div class="result-item">
-            <div>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
-
-            </div>
-            
-            <div>
-                <p>Hotel Name</p>
-                <p>Hotel Location</p>
-                <p>★★★★★</p>
-                <button class="req">Send Request</button>
-            </div>
-        </div><div class="result-item">
-            <div>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
-
-            </div>
-
-            <div>
-                <p>Hotel Name</p>
-                <p>Hotel Location</p>
-                <p>★★★★★</p>
-                <button class="req">Send Request</button>
-            </div>
-        </div>
+    <div class="res">
+        <ul id="searchResults"></ul>
     </div>
+
+
+        <!-- Loop through the dictionary keys and values -->
+        {% for key, value in res.items|slice:":6" %}
+            
+        <div class="result">
+            <div class="result-item">
+                <div>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPZMaHKjcxIEV3i5-2IImdnH1PlJfCCT7bXQ&s" alt="">
+
+                </div>
+                
+                <div>
+                    <p>{{ key }}</p>
+                    <p>{{ value }} km</p>
+                    <p>★★★★★</p>
+                    <button class="req">Send Request</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    
 
     <footer>
         <section>
@@ -217,14 +193,14 @@
             });
         });
 
-        var ctx = document.getElementById('myChart').getContext('2d');
+        var ctx1 = document.getElementById('myChart1').getContext('2d');
         var Hotspot_Name = {{ Hotspot_Name|safe }};
         Hotspot_Name.sort().reverse()
         var Food_needed = {{ Food_needed|safe }};
         Food_needed.sort().reverse()
         console.log(Hotspot_Name)
 
-        var myChart = new Chart(ctx, {
+        var myChart = new Chart(ctx1, {
         type: 'bar',
         data: {
             labels: Hotspot_Name,
@@ -257,10 +233,47 @@
         }
     });
 
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var rest_name = {{ rest_name|safe }};
+        var food_avail = {{ food_avail|safe }};
+        console.log(food_avail)
+        var myChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels:rest_name,
+            datasets: [{
+                label: 'Food Available',
+                data: food_avail,  // Replace with your actual chart_data array
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 
 
 
-    function initMap() {
+
+function initMap() {
     var coordinates = {{ coordinates|safe }};
 
     var customStyles = [
@@ -301,6 +314,41 @@
         }
     }
 }
+
+var searchResults = {{Hotspot_Name|safe}}
+console.log(searchResults)
+
+
+// Function to perform search
+function performSearch() {
+    var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+    var resultsContainer = document.getElementById("searchResults");
+    resultsContainer.innerHTML = ""; // Clear previous search results
+    
+    // Filter search results based on search term
+    var filteredResults = searchResults.filter(function(result) {
+        return result.toLowerCase().includes(searchTerm);
+    });
+    
+    // Display search results
+    filteredResults.forEach(function(result) {
+        var li = document.createElement("li");
+        li.className = 'search-list-item'
+        li.textContent = result;
+        li.addEventListener("click", function() {
+            document.getElementById("searchInput").value = result.split(":")[0].trim(); // Set search input value to the selected result
+        });
+
+        li.addEventListener("hover", function() {
+            li.style.cursor = 'pointer ' // Set search input value to the selected result
+        });
+
+        resultsContainer.appendChild(li);
+    });
+}
+
+// Event listener for search input
+document.getElementById("searchInput").addEventListener("input", performSearch);
       </script>
     
 
