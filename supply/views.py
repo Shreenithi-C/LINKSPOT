@@ -14,6 +14,8 @@ from .models import Hotspot,Restaurant
 import json
 
 
+def home(request):
+    return render(request, 'home.html',name = 'home')
 
 x = []
 
