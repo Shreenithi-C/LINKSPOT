@@ -2,7 +2,7 @@
 from django.shortcuts import render
 import googlemaps
 from django.conf import settings
-import openai
+#import openai
 import pathlib
 import textwrap
 import google.generativeai as genai
