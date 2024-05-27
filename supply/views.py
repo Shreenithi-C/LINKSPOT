@@ -12,10 +12,12 @@ import PIL.Image
 from django.http import JsonResponse
 from .models import Hotspot,Restaurant
 import json
+from .models import FoodRequest
+import uuid
 
 
 def home(request):
-    return render(request, 'home.html',name = 'home')
+    return render(request, 'home.html')
 
 x = []
 
@@ -103,7 +105,11 @@ def supply(request):
         initial_message = 'Hello! How can I assist you?'
 
         source = request.GET.get('source')
-        a=source
+        print('the source is :',source)
+        if source is None:
+            a = 'Gandhipuram'
+        else:
+            a=source
         rest = Hotspot.objects.get(Hotspot_Name = a)
         urge = rest.Food_needed
         b = {a:urge}
@@ -114,12 +120,12 @@ def supply(request):
 
         origin = f"{source_lat},{source_long}"
 
-        choice_rest = Restaurant.objects.values('Restaurant_Name','Restaurant_Latitude','Restaurant_longitude','Food_available')
+        choice_rest = Restaurant.objects.values('Restaurant_ID','Restaurant_Name','Restaurant_Latitude','Restaurant_longitude','Food_available')
 
         choice_dict = {}
 
         for i in choice_rest:
-            dest_name = i['Restaurant_Name'] + " - " + str(i['Food_available']) + " KGs"
+            dest_name = 'ID : ' + str(i['Restaurant_ID']) + ' - ' + i['Restaurant_Name'] + " - " + str(i['Food_available']) + " KGs"
             dest_lat = float(i['Restaurant_Latitude'])
             dest_long = float(i['Restaurant_longitude'])
             destination = f"{dest_lat},{dest_long}"
@@ -165,30 +171,61 @@ def supply(request):
         return JsonResponse({'error': 'Invalid request method'})
 
 
+identifier = ''
+def user_page(request):
+    global identifier
+    if request.method == 'POST':
+        rest_id = request.POST.get('restaurant_id')
+        user_name = request.POST.get('user_name')
+        food_details = request.POST.get('food_details')
+        # Generate a unique user identifier (UUID)
+        user_identifier = str(uuid.uuid4())
+        identifier = user_identifier
+        FoodRequest.objects.create(Restaurant_ID = rest_id ,Supplier_name=user_name, food_details=food_details, user_identifier=user_identifier)
+        return JsonResponse({'status': 'success', 'user_identifier': user_identifier})
+    requests = FoodRequest.objects.all()[::-1][:5]
+    
+    return render(request, 'user_page.html',{'requests':requests})
 
+def restaurant_page(request):
+    requests = FoodRequest.objects.filter(status='Pending')
+    details = FoodRequest.objects.all()[::-1][:5]
+    return render(request, 'restaurant_page.html', {'requests': requests,'details':details})
 
+def accept_request(request, request_id):
+    food_request = FoodRequest.objects.get(pk=request_id)
+    food_request.status = 'Accepted'
+    food_request.save()
+    return JsonResponse({'status': 'success'})
 
-    # if request.method == 'POST':
-    #     api_key = settings.GOOGLE_MAPS_API_KEY
+def reject_request(request, request_id):
+    food_request = FoodRequest.objects.get(pk=request_id)
+    food_request.status = 'Rejected'
+    food_request.save()
+    return JsonResponse({'status': 'success'})
 
-    #     source_lat = request.POST.get('source_lat')
-    #     source_lng = request.POST.get('source_lng')
-    #     dest_lat = request.POST.get('dest_lat')
-    #     dest_lng = request.POST.get('dest_lng')
+def check_notification(request):
+    global identifier
+    user_identifier = request.GET.get('user_identifier')  # Get the user identifier from the request
+    if user_identifier:
+        # Check if there are any accepted requests for the user identifier
+        if FoodRequest.objects.filter(user_identifier=identifier, status='Accepted').exists():
+            message = 'Your request has been accepted!'
+        else:
+            message = 'No request'
 
-    #     gmaps = googlemaps.Client(key=api_key)
+    return JsonResponse({'message': message})
 
-    #     # Construct the directions request
-    #     directions = gmaps.directions(
-    #         f'{source_lat},{source_lng}',
-    #         f'{dest_lat},{dest_lng}',
-    #         mode='driving'  # Specify the mode of travel, such as driving, walking, etc.
-    #     )
+def navigate(request):
+    accepted_requests = FoodRequest.objects.filter(status = 'Accepted')[::-1]
+    ID = accepted_requests[0].Restaurant_ID
 
-    #     if directions:
-    #         # Construct the navigation URL from the directions response
-    #         navigation_url = f'https://www.google.com/maps/embed/v1/directions?key={api_key}&origin={source_lat},{source_lng}&destination={dest_lat},{dest_lng}'
+    to_restaurant = Restaurant.objects.filter(Restaurant_ID = int(ID))
 
-    #         return render(request, 'supply.html', {'navigation_url': navigation_url})
-    # return render(request, 'supply.html', {'result': result})
+    to_lat = to_restaurant[0].Restaurant_Latitude
+    to_long = to_restaurant[0].Restaurant_longitude
+
+    api_key = settings.GOOGLE_MAPS_API_KEY
+
+    return render(request, 'navigate.html',{'latitude':to_lat,'longitude':to_long,'api':api_key})
 

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>User Page</title>
+    <link rel="stylesheet" href="{% static 'supply/styles.css' %}">
+    <style>
+        body{
+            background-image: url('{% static "supply/bg.jpg"%}');
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100svh;
+        }
+
+        input{
+            margin-bottom:50px;
+            padding:5px;
+            border-radius: 10px;
+            
+        }
+
+        
+        #user_name{
+            transform: translateX(22px);
+        }
+
+        #rest_id{
+            transform: translateX(13px);
+        }
+
+        button{
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            padding:10px;
+            border-radius: 10px;
+        }
+
+        form{
+            background-color: white;
+            padding:50px;
+            border-radius: 20px;
+        }
+
+        span{
+            margin-right: 30px;
+        }
+
+        .notifications{
+            margin-top:200px;
+            background-color: white;
+            padding:50px;
+            border-radius: 20px;
+            transform: translateY(-100px);
+        }
+
+        .notifications div{
+            margin-bottom:30px;
+        }
+    </style>
+    {% csrf_token %}
+</head>
+<body>
+    <form id="foodRequestForm">
+        <h2>Food Request Form</h2>
+        <br><br>
+        {% csrf_token %}
+        <span>Restaurant to Request : </span><input type="text" name="restaurant_id" id="rest_id" placeholder="Enter restaurant ID"><br>
+        <span>Name of the Supplier :   </span><input type="text" name="user_name" id="user_name" placeholder="Your Name"><br>
+        <span>Amount of Food in need : </span><input name="food_details" id="details" placeholder="Food Details"><br>
+        <center><button type="submit">Send Request</button></center>
+    </form>
+
+    <div class="notifications">
+
+        <center><h3>Request History</h3></center>
+        <br>
+        <br>
+
+    {% for request in requests %}
+
+    {% if request.status == 'Accepted' %}
+
+    <div id="notificationArea" style="color: green;">{{forloop.counter}}. (rest_id : {{request.Restaurant_ID}}) {{ request.Supplier_name}} - {{request.food_details}} - {{request.status}}</div>
+
+    {% elif request.status == 'Pending' %}
+
+    <div id="notificationArea" style="color: rgb(188, 171, 85);">{{forloop.counter}}. {{ request.Supplier_name}} - {{request.food_details}} - {{request.status}}</div>
+
+    {% else %}
+
+    <div id="notificationArea" style="color: red;">{{forloop.counter}}. {{ request.Supplier_name}} - {{request.food_details}} - {{request.status}}</div>
+
+
+    {% endif %}
+
+    {% endfor %}
+
+    <form action="{% url 'navigate' %}">
+    <center><button type="submit">Start Navigation</button></form></center>
+
+    </div>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#foodRequestForm').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/user/',
+                    data: $(this).serialize(),
+                    beforeSend: function(xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                    },
+                    success: function(data) {
+                        if (data.status === 'success') {
+                            alert('Request sent successfully!');
+                        }
+                    }
+                });
+            });
+
+            // Function to display notification message
+            function displayNotification(message) {
+                $('#notificationArea').text(message);
+            }
+
+            // Function to check for notification from server
+            function checkNotification() {
+                $.get('/check_notification/', function(data) {
+                    if (data.message) {
+                        displayNotification(data.message);
+                    }
+                });
+            }
+
+            // Check for notification every 5 seconds
+            setInterval(checkNotification, 5000); // Adjust interval as needed
+        });
+    </script>
+</body>
+</html>

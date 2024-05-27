@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,13 +11,17 @@
 </head>
 
 <style>
+    *{
+        box-sizing: border-box;
+    }
     body{
-        background-image:url('images/open_bg.jpeg') ;
+        background-image:url('{% static "supply/open_bg.jpeg"%}') ;
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-size: 100%;
         font-family: "open sans",sans-serif;
-            
+        margin:0;
+        padding:0;
     }
     nav {
         display: flex;
@@ -88,7 +93,7 @@
     <body>
         <nav>
             <div class="logo">
-                <img src="images/icon.png" alt="Applications Icon">
+                <img src="{% static 'supply/icon.png' %}" alt="Applications Icon">
             </div>
             <ul class="nav-links">
                 <li><a href="#">Sign Up</a></li>
@@ -102,7 +107,7 @@
                 organizations, facilitating efficient and targeted distribution processes through
                 dynamic assessment of current demand and surplus availability.</p>
             
-                <a href="">JOIN NOW</a>
+                <a href="{% url 'supply' %}">JOIN NOW</a>
             </div>
         
     </body>

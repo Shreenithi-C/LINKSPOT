@@ -17,4 +17,12 @@ class Hotspot(models.Model):
     Satisfied = models.BooleanField(default=False)
 
 
+class FoodRequest(models.Model):
+    Restaurant_ID = models.IntegerField()
+    Supplier_name = models.CharField(max_length=50)
+    food_details = models.TextField()
+    user_identifier = models.TextField()
+    status = models.CharField(max_length=20, default='Pending')
+
+
     

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+<head>
+    <title>Navigation Map</title>
+    <link rel="stylesheet" href="{% static 'supply/styles.css' %}">
+    <style>
+        #map {
+            height: 80svh;
+            width: 80%;
+        }
+
+        body{
+            background-image: url('{% static "supply/bg.jpg"%}');
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            height: 100svh;
+        }
+    </style>
+</head>
+<body>
+    <h1>Navigation Map</h1>
+    <div id="map"></div>
+
+    <script>
+                function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                minZoom: 10, // Maximum zoom level
+                suppressMarkers: true,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                styles: [
+                    {
+                        featureType: 'poi',
+                        stylers: [{ visibility: 'off' }] // Hide points of interest
+                    },
+                    {
+                        featureType: 'road',
+                        elementType: 'labels',
+                        stylers: [{ visibility: 'off' }] // Hide road labels
+                    }
+                ]
+            });
+
+            var directionsService = new google.maps.DirectionsService();
+            var directionsDisplay = new google.maps.DirectionsRenderer({
+                polylineOptions: {
+                    strokeColor: 'red'  // Change the color here
+                },
+                suppressMarkers: true,
+                map: map  // Display directions on this map
+            });
+
+            // Get user's current location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var currentLocation = new google.maps.LatLng(
+                        position.coords.latitude,
+                        position.coords.longitude
+                    );
+
+                    // Set map center to user's current location
+                    map.setCenter(currentLocation);
+
+                    var request = {
+                        origin: '11.0247 77.00298',
+                        destination: new google.maps.LatLng({{ latitude }}, {{ longitude }}),
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+
+                    // Custom icon for source marker
+                    var sourceIcon = {
+                        url: 'https://marketplace.canva.com/MACTmvCHwLc/1/thumbnail_large/canva-truck-top-view-MACTmvCHwLc.png', // Replace with the path to your source icon
+                        scaledSize: new google.maps.Size(50, 50)  // Adjust the size as needed
+                    };
+
+                    // Custom icon for destination marker
+                    var destinationIcon = {
+                        url: 'https://th.bing.com/th/id/R.0432553bb0a59a6201df6018c51c1e5a?rik=O4RSK%2bSgvz1JFw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2ftransparent-strawberry%2ftransparent-strawberry-18.png&ehk=9VKMzPDoRmw2jsnsx0YJrgWqz5Wf8PXIgoQfig5j%2b9Y%3d&risl=&pid=ImgRaw&r=0', // Replace with the path to your destination icon
+                        scaledSize: new google.maps.Size(50, 50)  // Adjust the size as needed
+                    };
+
+                    var sourceMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(11.0247, 77.00298),
+                        map: map,
+                        icon: sourceIcon
+                    });
+
+                    var destinationMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng({{ latitude }}, {{ longitude }}),
+                        map: map,
+                        icon: destinationIcon
+                    });
+
+                    directionsService.route(request, function(response, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(response);
+                        } else {
+                            alert('Error fetching directions: ' + status);
+                        }
+                    });
+                }, function(error) {
+                    console.error('Error getting user location:', error);
+                    alert('Error getting user location. Please enable geolocation.');
+                });
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{api}}&callback=initMap" async defer></script>
+</body>
+</html>

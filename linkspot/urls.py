@@ -16,13 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from supply.views import supply
+from supply.views import supply,home,user_page,restaurant_page,accept_request,check_notification,reject_request,navigate
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('supply/', supply, name='supply'),
+    path('home/',home,name='home'),
+    path('user/', user_page, name='user_page'),
+    path('restaurant/', restaurant_page, name='restaurant_page'),
+    path('accept/<int:request_id>/', accept_request, name='accept_request'),
+    path('reject/<int:request_id>/', reject_request, name='reject_request'),
+    path('check_notification/', check_notification, name='check_notification'),
+    path('navigate/',navigate,name = 'navigate')
 ]
 
 

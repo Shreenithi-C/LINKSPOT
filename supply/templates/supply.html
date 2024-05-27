@@ -78,7 +78,7 @@
 
     <div class="search-container">
         <form>
-        <input type="text" class="search-input" id="searchInput" value="Gandhipuram" name="source" placeholder="Search Hotspot...">
+        <input type="text" class="search-input" id="searchInput"  name="source" placeholder="Search Hotspot...">
         <button type="submit" class="search-button">Search</button>
     </form>
     </div>
@@ -102,7 +102,7 @@
                     <p>{{ key }}</p>
                     <p>{{ value }} km</p>
                     <p>★★★★★</p>
-                    <button class="req">Send Request</button>
+                    <a href="{% url 'user_page' %}"><button class="req">Send Request</button></a>
                 </div>
             </div>
         </div>

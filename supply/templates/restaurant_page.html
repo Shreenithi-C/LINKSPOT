@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Restaurant Page</title>
+    <style>
+    body{
+        background-image: url('{% static "supply/open_bg.jpeg"%}');
+        background-repeat: no-repeat;
+        background-size: 200%;
+        display: flex;
+        align-items: center;
+        height: 100svh;
+    }
+
+    .rest-container{
+        padding:100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap:150px;
+    }
+
+    .rest_logo{
+        margin-top:300px;
+        height: 200px;
+        width:300px;
+        border-radius: 10px;
+        overflow: hidden;
+        
+    }
+
+    .rest_logo img{
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+    }
+
+    .rest-2{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    .rest-2 >div{
+        min-height: 500px;
+        min-width: 400px;
+        border: 5px solid white;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h3{
+        color:white;
+    }
+
+    li{
+        background-color: white;
+        padding:10px;
+        width: 400px;
+        border-radius: 20px;
+        transform: translateX(-25px);
+        margin-bottom:30px;
+    }
+
+    li button{
+        padding:5px;
+        background-color: rgb(63, 224, 63);
+        margin-left:20px;
+        border-radius: 10px;
+    }
+
+    li button:nth-child(2){
+        background-color: red;
+        border-radius:10px ;
+    }
+
+    .notifications{
+        background-color: white;
+        width: 300px;
+        padding: 10px;
+        border-radius: 20px;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .notifications div{
+        margin-bottom:30px;
+    }
+
+    </style>
+    
+</head>
+<body>
+
+    <div class="rest-container">
+        <div class="rest_logo">
+            <img src="https://i0.wp.com/anandhas.com/wp-content/uploads/2023/08/cropped-white.jpeg?fit=512%2C512&ssl=1" alt="">
+        </div>
+
+        <div class="rest-2">
+            <div class="requests">
+                <center><h3>Requests</h3></center>
+                <ul>
+                    {% for request in requests %}
+                    <center><li>{{ request.Supplier_name }} - {{ request.food_details }} <button onclick="acceptRequest({{ request.id }})">Accept</button><button onclick="rejectRequest({{ request.id }})">Reject</button></li></center>
+                    {% endfor %}
+                </ul>
+            </div>
+
+
+
+            <div class="history">
+                <center><h3>Request History</h3></center>
+                <div class="notifications">
+            
+                {% for request in details %}
+            
+                {% if request.status == 'Accepted' %}
+            
+                <div id="notificationArea" style="color: green;">{{forloop.counter}}. (rest_id : {{request.Restaurant_ID}}) {{ request.Supplier_name}} - {{request.food_details}} - {{request.status}}</div>
+            
+                {% elif request.status == 'Pending' %}
+            
+                <div id="notificationArea" style="color: rgb(188, 171, 85);">{{forloop.counter}}. {{ request.Supplier_name}} - {{request.food_details}} - {{request.status}}</div>
+            
+                {% else %}
+            
+                <div id="notificationArea" style="color: red;">{{forloop.counter}}. {{ request.Supplier_name}} - {{request.food_details}} - {{request.status}}</div>
+            
+            
+                {% endif %}
+            
+                {% endfor %}
+            
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function acceptRequest(requestId) {
+            $.get(`/accept/${requestId}/`, function(data) {
+                if (data.status === 'success') {
+                    alert('Request accepted!');
+                    location.reload(); // Refresh page to update list
+                }
+            });
+        }
+
+        function rejectRequest(requestId) {
+            $.get(`/reject/${requestId}/`, function(data) {
+                if (data.status === 'success') {
+                    alert('Request rejected!');
+                    location.reload(); // Refresh page to update list
+                }
+            });
+        }
+    </script>
+</body>
+</html>
